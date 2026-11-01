@@ -23,6 +23,8 @@ class stack():
 
 if __name__ == "__main__":
 
+    import unittest
+
     s1 = stack()
     
     #Test if the stack is empty upon creation
@@ -52,6 +54,9 @@ if __name__ == "__main__":
 
     #Stack returns to empty after all items are removed
     print(s1.is_empty())
+
+    print(s1.peek())
+    print(s1.pop())
 
   
 
