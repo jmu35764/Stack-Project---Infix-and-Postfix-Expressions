@@ -1,4 +1,4 @@
-class stack():
+class Stack:
     def __init__(self):
         self._data = []
 
@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
     import unittest
 
-    s1 = stack()
+    s1 = Stack()
     
     #Test if the stack is empty upon creation
     print(s1.is_empty())
