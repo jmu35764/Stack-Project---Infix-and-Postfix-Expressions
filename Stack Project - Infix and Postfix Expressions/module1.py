@@ -1,4 +1,6 @@
-values  = [1,2,3,4,5]
-
-for value in values:
-    print(value - 1)
+for i in range(5):
+    print(i)
+for i in range(1, 6):
+    print(i)
+for i in range(2, 11, 2):
+    print(i)
