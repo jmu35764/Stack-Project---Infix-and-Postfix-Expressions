@@ -23,37 +23,49 @@ class InfixToPostfixConverter:
 
     def convert_to_postfix(self):
         #print("Code is running")
+        i = 0
         for char in self.expression:
-            #print(self.o_stack._data)
+            
             if self.isOperand(char):
+                if i != 0:
+                    if self.isOperand(char) and self.isOperand(self.expression[i-1]):
+                        raise ValueError("No two operators together")
                 self.result  += char
                 
             elif self.isOperator(char):
-                while not self.o_stack.is_empty() and self.isOperator(self.o_stack.peek()) and (self.OpPrecedence(self.o_stack.peek()) == 2 or self.OpPrecedence(self.o_stack.peek()) == self.OpPrecedence(char)):
-                    #print("The Precedence of the current stack item is: ", self.OpPrecedence(char))
+
+                if char == self.expression[0] or char == self.expression[-1]:
+                    raise ValueError("Improper Placement of operator")
+                elif self.isOperator(char) and self.isOperator(self.expression[i-1]):
+                    raise ValueError("No two operators together")
+
+                while not self.o_stack.is_empty() and \
+                self.isOperator(self.o_stack.peek()) and \
+                (self.OpPrecedence(self.o_stack.peek()) == 2 or self.OpPrecedence(self.o_stack.peek()) == self.OpPrecedence(char)):
+
+                    
                     self.result += self.o_stack.pop()
                 self.o_stack.push(char)
 
             elif char == '(':
+                if ')' not in self.expression:
+                    raise ValueError("No Matching Parantheses")
                 self.o_stack.push(char)
                 #print(self.o_stack._data)
 
             elif char == ')':
-                #while self.o_stack.peek != '(':
-                    #print(self.o_stack._data)
-                    #self.result += self.o_stack.pop()
-
+                if '(' not in self.o_stack._data:
+                    raise ValueError("No matching Parantheses")
                 for char in self.o_stack._data:
                     if self.o_stack.peek() != '(':
                         self.result += self.o_stack.pop()
                     if self.o_stack.peek() == '(':
                         self.o_stack.pop()
-                    
-                #self.o_stack.pop()
 
-            #print("Current result is: ", self.result)
-        
-        #print(self.o_stack._data)
+            else:
+                raise ValueError("Invalid Operand");
+            i += 1
+                    
         while not self.o_stack.is_empty():
             self.result += self.o_stack.pop()
 
@@ -89,3 +101,6 @@ if __name__ == "__main__":
 
     test_09 = InfixToPostfixConverter("(A+B*(C-D))/E")
     test_09.convert_to_postfix()
+
+    test_10 = InfixToPostfixConverter("(A+B")
+    test_10.convert_to_postfix()
