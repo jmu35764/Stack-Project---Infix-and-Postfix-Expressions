@@ -6,14 +6,20 @@ class Stack:
         self._data.append(item)
 
     def pop(self):
-        if self.is_empty():
-            raise IndexError("pop from empty stack")
-        return self._data.pop()
+        try:
+            return self._data.pop()
+        except IndexError:
+            print("ERROR: Pop frrom empty stack")
+        else:
+            return self._data.pop()
 
     def peek(self):
-        if self.is_empty():
-            raise IndexError("peek from empty stack")
-        return self._data[-1]
+        try:
+            return self._data[-1]
+        except IndexError as e:
+            print("ERROR: Peek frrom empty stack")
+        else:
+            return self._data[-1]
 
     def is_empty(self):
         return len(self._data) == 0

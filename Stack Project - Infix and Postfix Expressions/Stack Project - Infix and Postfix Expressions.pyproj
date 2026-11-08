@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>04b0e432-6fff-4d1e-82bf-b1673ddc1d0a</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>postfix_evaluator.py</StartupFile>
+    <StartupFile>stack.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>

@@ -1,6 +1,6 @@
 from stack import Stack
 class InfixToPostfixConverter:
-    def __init__(self, expression: str):
+    def __init__(self, expression):
         self.expression = expression
         self.o_stack = Stack()
         self.result = ""
@@ -26,10 +26,11 @@ class InfixToPostfixConverter:
         i = 0
         for char in self.expression:
             
+            #print(char)
             if self.isOperand(char):
                 if i != 0:
                     if self.isOperand(char) and self.isOperand(self.expression[i-1]):
-                        raise ValueError("No two operators together")
+                        raise ValueError("No two operands together")
                 self.result  += char
                 
             elif self.isOperator(char):
@@ -49,13 +50,13 @@ class InfixToPostfixConverter:
 
             elif char == '(':
                 if ')' not in self.expression:
-                    raise ValueError("No Matching Parantheses")
+                    raise ValueError("Parantheses Don't Match")
                 self.o_stack.push(char)
                 #print(self.o_stack._data)
 
             elif char == ')':
                 if '(' not in self.o_stack._data:
-                    raise ValueError("No matching Parantheses")
+                    raise ValueError("Parantheses don't match")
                 for char in self.o_stack._data:
                     if self.o_stack.peek() != '(':
                         self.result += self.o_stack.pop()
@@ -75,32 +76,32 @@ class InfixToPostfixConverter:
 if __name__ == "__main__":
     
     #s1 = Stack()
-    test = InfixToPostfixConverter("A+B*C")
+    test = InfixToPostfixConverter(['A','+','B','*','C'])
     test.convert_to_postfix()
 
-    test_02 = InfixToPostfixConverter("(A+B)*C")
+    test_02 = InfixToPostfixConverter(['(','A','+','B',')','*','C'])
     test_02.convert_to_postfix()
 
-    test_03 = InfixToPostfixConverter("A*B+C/D")
+    test_03 = InfixToPostfixConverter(['A','*','B','+','C','/','D'])
     test_03.convert_to_postfix()
 
-    test_04 = InfixToPostfixConverter("(A+B)*(C-D)")
+    test_04 = InfixToPostfixConverter(['(','A','+','B',')','*','(','C','-','D',')'])
     test_04.convert_to_postfix()
 
-    test_05 = InfixToPostfixConverter("A+B*C-D/E")
+    test_05 = InfixToPostfixConverter(['A','+','B','*','C','-','D','/', 'E'])
     test_05.convert_to_postfix()
 
-    test_06 = InfixToPostfixConverter("A*(B+C)/D")
+    test_06 = InfixToPostfixConverter(['A','*','(','B','+','C',')','/','D'])
     test_06.convert_to_postfix()
 
-    test_07 = InfixToPostfixConverter("(A+B*C)/(D-E)")
+    test_07 = InfixToPostfixConverter(['(','A','+','B','*','C',')','/','(','D','-','E',')'])
     test_07.convert_to_postfix()
 
-    test_08 = InfixToPostfixConverter("A+(B-C)*D")
+    test_08 = InfixToPostfixConverter(['A','+','(','B','-','C',')','*','D'])
     test_08.convert_to_postfix()
 
-    test_09 = InfixToPostfixConverter("(A+B*(C-D))/E")
+    test_09 = InfixToPostfixConverter(['(','A','+','B','*','(','C','-','D',')',')','/','E'])
     test_09.convert_to_postfix()
 
-    test_10 = InfixToPostfixConverter("(A+B")
+    test_10 = InfixToPostfixConverter(['(','A','+','B'])
     test_10.convert_to_postfix()
