@@ -26,45 +26,82 @@ class InfixToPostfixConverter:
         i = 0
         for char in self.expression:
             
-            #print(char)
             if self.isOperand(char):
-                if i != 0:
-                    if self.isOperand(char) and self.isOperand(self.expression[i-1]):
-                        raise ValueError("No two operands together")
-                self.result  += char
+                try:
+                    if i != 0:
+                        if self.isOperand(char) and self.isOperand(self.expression[i-1]):
+                            raise ValueError("ValueError")
+                except ValueError as e:
+                    print(f"{e}: Two operands are together")
+                    while not self.o_stack.is_empty():
+                        self.o_stack.pop()
+                    self.result = ""
+                    break
+
+                else:
+                    self.result  += char
                 
             elif self.isOperator(char):
 
-                if char == self.expression[0] or char == self.expression[-1]:
-                    raise ValueError("Improper Placement of operator")
-                elif self.isOperator(char) and self.isOperator(self.expression[i-1]):
-                    raise ValueError("No two operators together")
+                try:
+                    if char == self.expression[0] or char == self.expression[-1]:
+                        raise ValueError("Improper Placement of operator")
+                    elif self.isOperator(char) and self.isOperator(self.expression[i-1]):
+                        raise ValueError("No two operators together")
+                except ValueError as e:
+                    print(f"Value Error: {e}")
+                    if not self.o_stack.is_empty():
+                        self.o_stack.pop()
+                    self.result = ""
+                    break
 
-                while not self.o_stack.is_empty() and \
-                self.isOperator(self.o_stack.peek()) and \
-                (self.OpPrecedence(self.o_stack.peek()) == 2 or self.OpPrecedence(self.o_stack.peek()) == self.OpPrecedence(char)):
+                else:
+                    while not self.o_stack.is_empty() and \
+                    self.isOperator(self.o_stack.peek()) and \
+                    (self.OpPrecedence(self.o_stack.peek()) == 2 or self.OpPrecedence(self.o_stack.peek()) == self.OpPrecedence(char)):
 
                     
-                    self.result += self.o_stack.pop()
-                self.o_stack.push(char)
+                        self.result += self.o_stack.pop()
+                    self.o_stack.push(char)
 
             elif char == '(':
-                if ')' not in self.expression:
-                    raise ValueError("Parantheses Don't Match")
-                self.o_stack.push(char)
+                try:
+                    if ')' not in self.expression:
+                        raise ValueError("Parantheses Don't Match")
+                except ValueError as e:
+                    while not self.o_stack.is_empty():
+                        self.o_stack.pop()
+                    print(f"ValueError: {e}")
+                    self.result = ""
+                    break
+                else:
+                    self.o_stack.push(char)
                 #print(self.o_stack._data)
 
             elif char == ')':
-                if '(' not in self.o_stack._data:
-                    raise ValueError("Parantheses don't match")
-                for char in self.o_stack._data:
-                    if self.o_stack.peek() != '(':
-                        self.result += self.o_stack.pop()
-                    if self.o_stack.peek() == '(':
+                try:
+                    if '(' not in self.o_stack._data:
+                        raise ValueError("Parantheses don't match")
+                except ValueError as e:
+                    while not self.o_stack.is_empty():
                         self.o_stack.pop()
+                    print(f"ValueError: {e}")
+                    self.result = ""
+                    break
+                else:
+                    for char in self.o_stack._data:
+                        if self.o_stack.peek() != '(':
+                            self.result += self.o_stack.pop()
+                        if self.o_stack.peek() == '(':
+                            self.o_stack.pop()
 
             else:
-                raise ValueError("Invalid Operand");
+                try:
+                    raise ValueError("Invalid Operand")
+                except ValueError as e:
+                    print(f"ValueError: {e}")
+                    self.result = ""
+                    break
             i += 1
                     
         while not self.o_stack.is_empty():
@@ -103,5 +140,26 @@ if __name__ == "__main__":
     test_09 = InfixToPostfixConverter(['(','A','+','B','*','(','C','-','D',')',')','/','E'])
     test_09.convert_to_postfix()
 
-    test_10 = InfixToPostfixConverter(['(','A','+','B'])
+    test_10 = InfixToPostfixConverter(['A','+','B',')','C'])
     test_10.convert_to_postfix()
+
+    test_11 = InfixToPostfixConverter(['A','+','B',';','C'])
+    test_11.convert_to_postfix()
+    
+    test_12 = InfixToPostfixConverter(['+','A','B'])
+    test_12.convert_to_postfix()
+
+    test_13 = InfixToPostfixConverter(['A','+','*','B'])
+    test_13.convert_to_postfix()
+
+    test_14 = InfixToPostfixConverter(['A','B','+','C'])
+    test_14.convert_to_postfix()
+
+    test_15 = InfixToPostfixConverter(['A','+',')','B','*','C'])
+    test_15.convert_to_postfix()
+    
+    test_16 = InfixToPostfixConverter(['(','A','+','B'])
+    test_16.convert_to_postfix()
+
+    test_17 = InfixToPostfixConverter(['A','+','B',')'])
+    test_17.convert_to_postfix()

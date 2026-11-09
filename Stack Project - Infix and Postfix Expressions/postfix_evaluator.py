@@ -34,7 +34,11 @@ class PostfixEvaluator():
                     result = operands[1] / operands[0]
                 self.o_stack.push(result)
             else:
-                raise ValueError("Invalid Operand");
+                try:
+                    raise ValueError("Invalid Operand")
+                except ValueError as e:
+                    print(f"ValueError: {e}")
+
         return print(self.o_stack.peek())
 
 if __name__ == "__main__":

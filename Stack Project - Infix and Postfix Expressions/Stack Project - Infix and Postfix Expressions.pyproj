@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>04b0e432-6fff-4d1e-82bf-b1673ddc1d0a</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>stack.py</StartupFile>
+    <StartupFile>infix_converter.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -23,6 +23,7 @@
   <ItemGroup>
     <Compile Include="infix_converter.py" />
     <Compile Include="module1.py" />
+    <Compile Include="module2.py" />
     <Compile Include="postfix_evaluator.py" />
     <Compile Include="stack.py" />
     <Compile Include="main.py" />
