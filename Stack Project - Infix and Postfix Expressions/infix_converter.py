@@ -24,6 +24,7 @@ class InfixToPostfixConverter:
     def convert_to_postfix(self):
         #print("Code is running")
         i = 0
+
         for char in self.expression:
             
             if self.isOperand(char):
@@ -107,7 +108,7 @@ class InfixToPostfixConverter:
         while not self.o_stack.is_empty():
             self.result += self.o_stack.pop()
 
-        return print(self.result)
+        return print(*self.expression, "->", self.result)
             
 
 if __name__ == "__main__":
