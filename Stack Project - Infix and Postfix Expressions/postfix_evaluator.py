@@ -6,40 +6,80 @@ class PostfixEvaluator():
         self.result = 0
 
     def isOperand(self, char):
-        if isinstance(char, int):
-            return char
+        #print(char, "Operand",type(char))
+        #if isinstance(char, float):
+        if type(char) is int:
+            return True
 
     def isOperator(self, char):
+        #print(char, "Operator",type(char))
         if char in ('*', '+', '-', '/'):    
             return char
 
     def eval_postfix(self):
+        #print(self.expression)
+        operator_num = 0
+        operand_num = 0
         for char in self.expression:
+            #er_string = " "
             
+            #print(type(char))
             if self.isOperand(char):
+                operand_num += 1
                 self.o_stack.push(char)
                 
-
             elif self.isOperator(char):
+                operator_num += 1
                 operands = [0]*2
+                if self.isOperand(self.expression[0]) and self.isOperator(self.expression[1]):
+                    try:
+                        raise ValueError("Can't have an operator after first operand")
+                    except ValueError as e:
+                        return print("[", *self.expression, "] -> ERROR: ",e)
+                if self.o_stack.size() == 1:
+                    try:
+                        raise ValueError("Too many operators")
+                    except ValueError as e:
+                        return print("[", *self.expression, "] -> ERROR: ",e)
                 for i in range (2):
                     operands[i] = self.o_stack.pop()
+                #print(operands)
                 if char == '+':
                     result = operands[1] + operands[0]
+                    self.o_stack.push(result)
                 if char == '-':
                     result = operands[1] - operands[0]
+                    self.o_stack.push(result)
                 if char == '*':
                     result = operands[1] * operands[0]
+                    self.o_stack.push(result)
                 if char == '/':
-                    result = operands[1] / operands[0]
-                self.o_stack.push(result)
+                    try:
+                        if operands[0] == 0:
+                            raise ZeroDivisionError("Can't divide by Zero")
+                    except ZeroDivisionError as e:
+                            return print("[", *self.expression, "] -> ERROR: ",e)
+                            #result == 0
+                            #break
+                    else:
+                        result = operands[1]/operands[0]
+                        self.o_stack.push(result)
+            
             else:
                 try:
                     raise ValueError("Invalid Operand")
                 except ValueError as e:
-                    print(f"ValueError: {e}")
+                    return print("[", *self.expression, "] -> ERROR: ",e)
 
-        return print(self.o_stack.peek())
+        if self.o_stack.size() > 1:
+            try:
+                raise ValueError("Too many operands")
+            except ValueError as e:
+                return print("[", *self.expression, "] -> ERROR: ",e)
+            
+        return print("[", *self.expression, f"] = {self.o_stack.peek()}")
+
+
 
 if __name__ == "__main__":
 

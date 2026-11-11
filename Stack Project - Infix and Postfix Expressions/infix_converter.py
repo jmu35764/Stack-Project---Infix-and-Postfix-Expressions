@@ -30,13 +30,13 @@ class InfixToPostfixConverter:
                 try:
                     if i != 0:
                         if self.isOperand(char) and self.isOperand(self.expression[i-1]):
-                            raise ValueError("ValueError")
+                            raise ValueError("No Operator between operands")
                 except ValueError as e:
-                    print(f"{e}: Two operands are together")
-                    while not self.o_stack.is_empty():
-                        self.o_stack.pop()
-                    self.result = ""
-                    break
+                    return print("[", *self.expression, "] -> ERROR: ",e)
+                    #while not self.o_stack.is_empty():
+                    #    self.o_stack.pop()
+                    #self.result = ""
+                    #break
 
                 else:
                     self.result  += char
@@ -49,11 +49,11 @@ class InfixToPostfixConverter:
                     elif self.isOperator(char) and self.isOperator(self.expression[i-1]):
                         raise ValueError("No two operators together")
                 except ValueError as e:
-                    print(f"Value Error: {e}")
-                    if not self.o_stack.is_empty():
-                        self.o_stack.pop()
-                    self.result = ""
-                    break
+                    return print("[", *self.expression, "] -> ERROR: ",e)
+                    #if not self.o_stack.is_empty():
+                    #    self.o_stack.pop()
+                    #self.result = ""
+                    #break
 
                 else:
                     while not self.o_stack.is_empty() and \
@@ -71,9 +71,9 @@ class InfixToPostfixConverter:
                 except ValueError as e:
                     while not self.o_stack.is_empty():
                         self.o_stack.pop()
-                    print(f"ValueError: {e}")
-                    self.result = ""
-                    break
+                    return print("[", *self.expression, "] -> ERROR: ",e)
+                    #self.result = ""
+                    #break
                 else:
                     self.o_stack.push(char)
                 #print(self.o_stack._data)
@@ -85,9 +85,9 @@ class InfixToPostfixConverter:
                 except ValueError as e:
                     while not self.o_stack.is_empty():
                         self.o_stack.pop()
-                    print(f"ValueError: {e}")
-                    self.result = ""
-                    break
+                    return print("[", *self.expression, "] -> ERROR: ",e)
+                    #self.result = ""
+                    #break
                 else:
                     for char in self.o_stack._data:
                         if self.o_stack.peek() != '(':
@@ -99,9 +99,9 @@ class InfixToPostfixConverter:
                 try:
                     raise ValueError("Invalid Operand")
                 except ValueError as e:
-                    print(f"ValueError: {e}")
-                    self.result = ""
-                    break
+                    return print("[", *self.expression, "] -> ERROR: ",e)
+                    #self.result = ""
+                    #break
             i += 1
                     
         while not self.o_stack.is_empty():
